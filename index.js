@@ -14,10 +14,25 @@
         + Bu `isim` ve `yas` i içeren bir string döndürmelidir Örnek: "Mary, 50"
 */
 
-function Kisi(/* kodlar buraya */) {
-  /* kodlar buraya */
-}
+function Kisi(isim, yas) {
+  this.isim = isim;
+  this.yas = yas;
+  this.mide = [];
 
+  this.ye = function (birYemek) {
+    if (this.mide.length < 10) {
+      this.mide.push(birYemek);
+    }
+  };
+
+  this.bosalt = function () {
+    this.mide = [];
+  };
+
+  this.toString = function () {
+    return `${this.isim}, ${this.yas}`;
+  };
+}
 
 /*
   GÖREV 2
@@ -35,10 +50,42 @@ function Kisi(/* kodlar buraya */) {
         +  "x milde benzinim bitti!" x değişkeni `odometer` daki sayı olmalıdır.
 */
 
-function Araba(/* kodlar buraya */) {
-  /* kodlar buraya */
+function Araba(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
+
+  this.fill = function (gallons) {
+    this.tank += gallons;
+  };
+
+  this.drive = function (distance) {
+    const calculatedGallons = ((distance * this.milesPerGallon) / 60).toFixed(2);
+
+    if (this.tank >= calculatedGallons) {
+      this.odometer += distance;
+      this.tank -= calculatedGallons;
+
+      return `Yapılan mil: ${this.odometer}\nKalan galon: ${
+        this.tank
+      }\nYaklaşık menzil: ${(this.tank * 60) / this.milesPerGallon}`;
+    } else {
+      this.odometer += (this.tank * 60) / this.milesPerGallon;
+      this.tank = 0;
+
+      return `${this.odometer} milde benzinim bitti!`;
+    }
+  };
 }
 
+const toyota = new Araba("toyota", 10);
+toyota.fill(10);
+toyota.drive(80);
+console.log(toyota.odometer);
+console.log(toyota.drive(80));
+toyota.fill(10);
+console.log(toyota.drive(50));
 
 /* 
   GÖREV 3
@@ -49,16 +96,15 @@ function Araba(/* kodlar buraya */) {
   4. 
 */
 
-
 /* !!!! Burdan aşağısını değiştirmeyin !!!! */
-function as(){
-  console.log('Kodlar sorunsuz çalışıyor!');
-  return 'sa';
+function as() {
+  console.log("Kodlar sorunsuz çalışıyor!");
+  return "sa";
 }
 as();
 module.exports = {
   as,
-  Kisi, 
+  Kisi,
   Araba,
   /* Bebek */
-}
+};
